@@ -1,2 +1,2 @@
-alert("GitHub-hosted JavaScript executed!");
+alert(localStorage.getItem('auth'));
 console.log("External JS loaded successfully");
