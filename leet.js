@@ -1,1 +1,3 @@
-document.body.innerHTML = 'External JavaScript executed!';
+document.addEventListener('DOMContentLoaded', function () {
+    alert('Homework Lab Done!');
+});
