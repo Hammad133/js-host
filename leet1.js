@@ -1,24 +1,45 @@
-document.body.innerHTML = '';
+(async function () {
+    const results = {};
 
-const output = document.createElement('pre');
+    // Current iframe origin
+    results.iframeOrigin = location.origin;
 
-output.style.cssText = `
-    background: #111;
-    color: #00ff00;
-    padding: 20px;
-    font-size: 16px;
-    white-space: pre-wrap;
-`;
+    // Current iframe localStorage
+    try {
+        results.iframeStorage = Object.fromEntries(
+            Object.keys(localStorage).map(key => [
+                key,
+                localStorage.getItem(key)
+            ])
+        );
+    } catch (e) {
+        results.iframeStorageError = e.toString();
+    }
 
-output.textContent = JSON.stringify(
-    Object.fromEntries(
-        Object.keys(localStorage).map(key => [
-            key,
-            localStorage.getItem(key)
-        ])
-    ),
-    null,
-    2
-);
+    // Parent application origin
+    try {
+        results.parentOrigin = window.parent.location.origin;
+    } catch (e) {
+        results.parentOriginError = e.toString();
+    }
 
-document.body.appendChild(output);
+    // Parent application localStorage
+    try {
+        results.parentStorage = Object.fromEntries(
+            Object.keys(window.parent.localStorage).map(key => [
+                key,
+                window.parent.localStorage.getItem(key)
+            ])
+        );
+    } catch (e) {
+        results.parentStorageError = e.toString();
+    }
+
+    // Display results
+    const output = document.createElement('pre');
+    output.style.cssText =
+        'background:#111;color:#0f0;padding:20px;white-space:pre-wrap;';
+
+    output.textContent = JSON.stringify(results, null, 2);
+    document.body.appendChild(output);
+})();
