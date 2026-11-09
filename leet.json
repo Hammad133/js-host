@@ -1,0 +1,5 @@
+{
+  "name": "JavaScript Test",
+  "description": "Alert execution test",
+  "script": "alert(9)"
+}
